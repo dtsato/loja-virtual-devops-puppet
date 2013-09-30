@@ -3,7 +3,7 @@ exec { "apt-update":
 }
 
 package { "mysql-server":
-  ensure => installed,
+  ensure  => installed,
   require => Exec["apt-update"],
 }
 
@@ -32,7 +32,7 @@ exec { "loja-schema":
 }
 
 exec { "loja-user":
-  unless => "mysql -uloja -plojasecret loja_schema",
+  unless  => "mysql -uloja -plojasecret loja_schema",
   command => "mysql -uroot -e \"GRANT ALL PRIVILEGES ON \
                                 loja_schema.* TO loja \
                                 IDENTIFIED BY 'lojasecret';\"",

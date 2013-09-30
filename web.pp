@@ -3,7 +3,7 @@ exec { "apt-update":
 }
 
 package { ["mysql-client", "tomcat7"]:
-  ensure => installed,
+  ensure  => installed,
   require => Exec["apt-update"],
 }
 
