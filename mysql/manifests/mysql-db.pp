@@ -10,7 +10,7 @@ define mysql-db($schema, $user = $title, $password) {
   exec { "$title-user":
     unless  => "mysql -u$user -p$password $schema",
     command => "mysql -uroot -e \"GRANT ALL PRIVILEGES ON \
-                                  $schema.* TO $user \
+                                  $schema.* TO '$user'@'%' \
                                   IDENTIFIED BY '$password';\"",
     path    => "/usr/bin/",
     require => Exec["$title-schema"],
