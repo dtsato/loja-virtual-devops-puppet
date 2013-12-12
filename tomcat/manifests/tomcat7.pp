@@ -1,4 +1,4 @@
-class tomcat7 {
+class tomcat7($connectors = []) {
   package { "tomcat7":
     ensure  => installed,
     require => Exec["apt-update"],
@@ -9,6 +9,15 @@ class tomcat7 {
     group   => root,
     mode    => 0644,
     source  => "puppet:///modules/tomcat/tomcat7",
+    require => Package["tomcat7"],
+    notify  => Service["tomcat7"],
+  }
+
+  file { "/var/lib/tomcat7/conf/server.xml":
+    owner   => root,
+    group   => tomcat7,
+    mode    => 0644,
+    content => template("tomcat/server.xml"),
     require => Package["tomcat7"],
     notify  => Service["tomcat7"],
   }
