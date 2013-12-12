@@ -1,17 +1,14 @@
 import "mysql"
+import "tomcat"
 
 include mysql-client
-
-package { "tomcat7":
-  ensure  => installed,
-  require => Exec["apt-update"],
-}
+include tomcat7
 
 file { "/var/lib/tomcat7/conf/.keystore":
   owner   => root,
   group   => tomcat7,
   mode    => 0640,
-  source  => "puppet:///modules/tomcat/.keystore",
+  source  => "/tmp/vagrant-puppet/manifests/.keystore",
   require => Package["tomcat7"],
   notify  => Service["tomcat7"],
 }
@@ -23,23 +20,6 @@ file { "/var/lib/tomcat7/conf/server.xml":
   source  => "puppet:///modules/tomcat/server.xml",
   require => Package["tomcat7"],
   notify  => Service["tomcat7"],
-}
-
-file { "/etc/default/tomcat7":
-  owner   => root,
-  group   => root,
-  mode    => 0644,
-  source  => "puppet:///modules/tomcat/tomcat7",
-  require => Package["tomcat7"],
-  notify  => Service["tomcat7"],
-}
-
-service { "tomcat7":
-  ensure     => running,
-  enable     => true,
-  hasstatus  => true,
-  hasrestart => true,
-  require    => Package["tomcat7"],
 }
 
 $db_host = "192.168.33.10"
