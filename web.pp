@@ -14,12 +14,14 @@ $ssl_conector = {
   "keystoreFile" => $keystore_file,
   "keystorePass" => "secret",
   "clientAuth"   => false,
-  "sslProtocol"  => "SSLv3"
+  "sslProtocol"  => "SSLv3",
 }
-$db_host = "192.168.33.10"
-$db_schema = "loja_schema"
-$db_user = "loja"
-$db_password = "lojasecret"
+$db = {
+  "user"     => "loja",
+  "password" => "lojasecret",
+  "driver"   => "com.mysql.jdbc.Driver",
+  "url"      => "jdbc:mysql://192.168.33.10:3306/loja_schema",
+}
 
 file { "$keystore_file":
   mode    => 0644,
@@ -27,17 +29,13 @@ file { "$keystore_file":
 }
 
 class { "tomcat7":
-  connectors => [$ssl_conector],
-  require    => File[$keystore_file],
-}
-
-file { "/var/lib/tomcat7/conf/context.xml":
-  owner   => root,
-  group   => tomcat7,
-  mode    => 0644,
-  content => template("tomcat/context.xml"),
-  require => Package["tomcat7"],
-  notify  => Service["tomcat7"],
+  connectors   => [$ssl_conector],
+  data_sources => {
+    "jdbc/web"     => $db,
+    "jdbc/secure"  => $db,
+    "jdbc/storage" => $db,
+  },
+  require      => File[$keystore_file],
 }
 
 file { "/var/lib/tomcat7/webapps/devopsnapratica.war":
