@@ -1,0 +1,1 @@
+class loja_virtual { }
