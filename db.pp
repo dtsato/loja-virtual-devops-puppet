@@ -1,8 +1,6 @@
-import "mysql"
+include mysql::server
 
-include mysql-server
-
-mysql-db { "loja":
+mysql::db { "loja":
   schema   => "loja_schema",
   password => "lojasecret",
 }

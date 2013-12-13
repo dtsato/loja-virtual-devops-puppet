@@ -81,7 +81,7 @@
                redirectPort="8443" />
     -->
     <%- connectors.each do |connector| -%>
-      <Connector <%= connector.map {|k,v| "#{k}='#{v}'" }.join(" ") %> />
+      <Connector <%= connector.sort.map {|k,v| "#{k}='#{v}'" }.join(" ") %> />
     <%- end -%>
 
     <!-- Define an AJP 1.3 Connector on port 8009 -->

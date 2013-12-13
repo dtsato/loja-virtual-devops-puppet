@@ -1,10 +1,8 @@
-import "mysql"
-import "tomcat"
-
-include mysql-client
+include mysql::client
 
 $keystore_file = "/etc/ssl/.keystore"
-$ssl_conector = {
+
+$ssl_connector = {
   "port"         => 8443,
   "protocol"     => "HTTP/1.1",
   "SSLEnabled"   => true,
@@ -16,6 +14,7 @@ $ssl_conector = {
   "clientAuth"   => false,
   "sslProtocol"  => "SSLv3",
 }
+
 $db = {
   "user"     => "loja",
   "password" => "lojasecret",
@@ -23,19 +22,19 @@ $db = {
   "url"      => "jdbc:mysql://192.168.33.10:3306/loja_schema",
 }
 
-file { "$keystore_file":
+file { $keystore_file:
   mode    => 0644,
   source  => "/tmp/vagrant-puppet/manifests/.keystore",
 }
 
-class { "tomcat7":
-  connectors   => [$ssl_conector],
+class { "tomcat::server":
+  connectors => [$ssl_connector],
   data_sources => {
     "jdbc/web"     => $db,
     "jdbc/secure"  => $db,
     "jdbc/storage" => $db,
   },
-  require      => File[$keystore_file],
+  require => File[$keystore_file],
 }
 
 file { "/var/lib/tomcat7/webapps/devopsnapratica.war":

@@ -1,1 +1,1 @@
-import "tomcat7"
+class tomcat { }

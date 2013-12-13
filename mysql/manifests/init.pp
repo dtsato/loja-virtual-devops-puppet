@@ -1,3 +1,1 @@
-import "mysql-server"
-import "mysql-client"
-import "mysql-db"
+class mysql { }

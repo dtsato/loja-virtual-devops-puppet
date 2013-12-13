@@ -1,5 +1,5 @@
-define mysql-db($schema, $user = $title, $password) {
-  Class['mysql-server'] -> Mysql-db[$title]
+define mysql::db($schema, $user = $title, $password) {
+  Class['mysql::server'] -> Mysql::Db[$title]
 
   exec { "$title-schema":
     unless  => "mysql -uroot $schema",

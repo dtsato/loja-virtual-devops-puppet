@@ -1,4 +1,4 @@
-class tomcat7($connectors = [], $data_sources = []) {
+class tomcat::server($connectors = [], $data_sources = []) {
   package { "tomcat7":
     ensure  => installed,
     require => Exec["apt-update"],

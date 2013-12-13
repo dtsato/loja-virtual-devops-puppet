@@ -21,7 +21,7 @@
     <!-- Default set of monitored resources -->
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
 
-    <%- data_sources.each do |data_source, db| -%>
+    <%- data_sources.sort.each do |data_source, db| -%>
       <Resource name="<%= data_source %>" auth="Container"
             type="javax.sql.DataSource" maxActive="100" maxIdle="30"
             maxWait="10000"
