@@ -1,4 +1,4 @@
-class loja_virtual::web {
+class loja_virtual::web inherits loja_virtual {
   include mysql::client
   include loja_virtual::params
 

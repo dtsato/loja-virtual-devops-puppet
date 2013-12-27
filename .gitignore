@@ -1,3 +1,6 @@
 *.war
 .keystore
 *.deb
+librarian/.tmp
+librarian/modules
+librarian/Puppetfile.lock
