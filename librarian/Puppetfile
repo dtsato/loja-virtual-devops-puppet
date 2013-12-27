@@ -1,3 +1,4 @@
 forge "http://forge.puppetlabs.com"
 
 mod "puppetlabs/apt"
+mod "rtyler/jenkins"
