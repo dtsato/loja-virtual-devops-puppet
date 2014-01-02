@@ -1,4 +1,6 @@
-class loja_virtual::ci inherits loja_virtual {
+class loja_virtual::ci {
+  include loja_virtual
+
   package { ['git', 'maven2', 'openjdk-6-jdk']:
     ensure  => "installed",
   }
