@@ -6,8 +6,8 @@ class loja_virtual::ci {
   }
 
   user { 'jenkins' :
-    ensure     => present,
-    managehome => true,
+    ensure => present,
+    home   => "/var/lib/jenkins",
   }
 
   class { 'jenkins':
