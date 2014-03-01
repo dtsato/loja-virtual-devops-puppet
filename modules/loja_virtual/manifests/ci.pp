@@ -2,16 +2,13 @@ class loja_virtual::ci {
   include loja_virtual
 
   package { ['git', 'maven2', 'openjdk-6-jdk']:
-    ensure  => "installed",
-  }
-
-  user { 'jenkins' :
-    ensure => present,
-    home   => "/var/lib/jenkins",
+    ensure => "installed",
   }
 
   class { 'jenkins':
-    require => User['jenkins'],
+    config_hash => {
+      'JAVA_ARGS' => { 'value' => '-Xmx256m' }
+    },
   }
 
   $plugins = [
@@ -20,10 +17,10 @@ class loja_virtual::ci {
     'scm-api',
     'git-client',
     'git',
-    'greenballs',
+    'maven-plugin',
     'javadoc',
     'mailer',
-    'maven-plugin'
+    'greenballs'
   ]
 
   jenkins::plugin { $plugins: }
