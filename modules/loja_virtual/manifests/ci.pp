@@ -20,8 +20,40 @@ class loja_virtual::ci {
     'maven-plugin',
     'javadoc',
     'mailer',
-    'greenballs'
+    'greenballs',
+    'ws-cleanup'
   ]
 
   jenkins::plugin { $plugins: }
+
+  file { '/var/lib/jenkins/hudson.tasks.Maven.xml':
+    mode    => 0644,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    source  => 'puppet:///modules/loja_virtual/hudson.tasks.Maven.xml',
+    require => Class['jenkins::package'],
+    notify  => Service['jenkins'],
+  }
+
+  $job_dir = '/var/lib/jenkins/jobs/loja-virtual-devops'
+  $git_repository = 'https://github.com/dtsato/loja-virtual-devops.git'
+  $git_poll_interval = '* * * * *'
+  $maven_goal = 'install'
+  $archive_artifacts = 'combined/target/*.war'
+
+  file { $job_dir:
+    ensure  => 'directory',
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    require => Class['jenkins::package'],
+  }
+
+  file { "$job_dir/config.xml":
+    mode    => 0644,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    content => template('loja_virtual/config.xml'),
+    require => File[$job_dir],
+    notify  => Service['jenkins'],
+  }
 }
