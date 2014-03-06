@@ -40,6 +40,8 @@ class loja_virtual::ci {
   $git_poll_interval = '* * * * *'
   $maven_goal = 'install'
   $archive_artifacts = 'combined/target/*.war'
+  $repo_dir = '/var/lib/apt/repo'
+  $repo_name = 'devopspkgs'
 
   file { $job_dir:
     ensure  => 'directory',
@@ -55,5 +57,10 @@ class loja_virtual::ci {
     content => template('loja_virtual/config.xml'),
     require => File[$job_dir],
     notify  => Service['jenkins'],
+  }
+
+  class { 'loja_virtual::repo':
+    basedir => $repo_dir,
+    name    => $repo_name,
   }
 }

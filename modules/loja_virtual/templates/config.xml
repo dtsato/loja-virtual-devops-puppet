@@ -63,11 +63,15 @@
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
   </buildWrappers>
   <prebuilders/>
-  <postbuilders/>
+  <postbuilders>
+    <hudson.tasks.Shell>
+      <command>fpm -s dir -t deb -C combined/target --prefix /var/lib/tomcat7/webapps/ -d tomcat7 -n devopsnapratica -v $BUILD_NUMBER.master -a noarch devopsnapratica.war &amp;&amp; reprepro -Vb <%= repo_dir %> includedeb <%= repo_name %> *.deb</command>
+    </hudson.tasks.Shell>
+  </postbuilders>
   <runPostStepsIfResult>
-    <name>FAILURE</name>
-    <ordinal>2</ordinal>
-    <color>RED</color>
+    <name>SUCCESS</name>
+    <ordinal>0</ordinal>
+    <color>BLUE</color>
     <completeBuild>true</completeBuild>
   </runPostStepsIfResult>
 </maven2-moduleset>
