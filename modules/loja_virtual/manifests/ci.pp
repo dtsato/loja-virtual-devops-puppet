@@ -5,7 +5,7 @@ class loja_virtual::ci {
     ensure => "installed",
   }
 
-  package { 'fpm':
+  package { ['fpm', 'bundler']:
     ensure   => 'installed',
     provider => 'gem',
     require  => Package['make'],

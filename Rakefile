@@ -2,10 +2,14 @@
 require 'rspec/core/rake_task'
 require 'puppet-lint/tasks/puppet-lint'
 
-PuppetLint.configuration.ignore_paths = ["librarian/**/*.pp"]
+PuppetLint.configuration.ignore_paths = [
+  "librarian/**/*.pp",
+  "vendor/bundle/**/*.pp"
+]
 
+TESTED_MODULES = %w(mysql tomcat)
 namespace :spec do
-  %w(mysql tomcat).each do |module_name|
+  TESTED_MODULES.each do |module_name|
     desc "Roda os testes do módulo #{module_name}"
     RSpec::Core::RakeTask.new(module_name) do |t|
       t.pattern = "modules/#{module_name}/spec/**/*_spec.rb"
@@ -14,7 +18,7 @@ namespace :spec do
 end
 
 desc "Toda todos os testes"
-task :spec => ['spec:tomcat', 'spec:mysql']
+task :spec => TESTED_MODULES.map {|m| "spec:#{m}" }
 
 namespace :librarian do
   desc "Instala os módulos usando o Librarian Puppet"
