@@ -22,7 +22,7 @@ class loja_virtual::web {
     location    => 'http://192.168.33.16/',
     release     => 'devopspkgs',
     repos       => 'main',
-    key         => '4F3FD614', # Replace with the actual GPG key generated
+    key         => '304AB557', # Replace with the actual GPG key generated
     key_source  => 'http://192.168.33.16/devopspkgs.gpg',
     include_src => false,
   }
