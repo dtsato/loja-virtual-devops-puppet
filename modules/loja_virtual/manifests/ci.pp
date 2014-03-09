@@ -1,8 +1,14 @@
 class loja_virtual::ci {
   include loja_virtual
 
-  package { ['git', 'maven2', 'openjdk-6-jdk']:
+  package { ['git', 'maven2', 'openjdk-6-jdk', 'make']:
     ensure => "installed",
+  }
+
+  package { 'fpm':
+    ensure   => 'installed',
+    provider => 'gem',
+    require  => Package['make'],
   }
 
   class { 'jenkins':

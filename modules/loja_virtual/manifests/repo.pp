@@ -1,12 +1,6 @@
 class loja_virtual::repo($basedir, $name) {
-  package { ['reprepro', 'make']:
+  package { 'reprepro':
     ensure => 'installed',
-  }
-
-  package { 'fpm':
-    ensure   => 'installed',
-    provider => 'gem',
-    require  => Package['make'],
   }
 
   $repo_structure = [
