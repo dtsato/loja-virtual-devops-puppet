@@ -2,10 +2,7 @@
 require 'rspec/core/rake_task'
 require 'puppet-lint/tasks/puppet-lint'
 
-PuppetLint.configuration.ignore_paths = [
-  "librarian/**/*.pp",
-  "vendor/bundle/**/*.pp"
-]
+PuppetLint.configuration.ignore_paths = ["librarian/**/*.pp"]
 
 TESTED_MODULES = %w(mysql tomcat)
 namespace :spec do
