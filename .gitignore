@@ -1,5 +1,4 @@
 *.war
-.keystore
 *.deb
 librarian/.tmp
 librarian/.librarian
