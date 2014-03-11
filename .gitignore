@@ -1,3 +1,5 @@
+.setup_aws
+.vagrant
 *.war
 *.deb
 librarian/.tmp
