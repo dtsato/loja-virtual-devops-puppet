@@ -1,14 +1,14 @@
 class loja_virtual::ci {
   include loja_virtual
 
-  package { ['git', 'maven2', 'openjdk-6-jdk', 'make']:
+  package { ['git', 'maven2', 'openjdk-6-jdk', 'rubygems']:
     ensure => "installed",
   }
 
   package { ['fpm', 'bundler']:
     ensure   => 'installed',
     provider => 'gem',
-    require  => Package['make'],
+    require  => Package['rubygems'],
   }
 
   class { 'jenkins':
@@ -43,7 +43,10 @@ class loja_virtual::ci {
     notify  => Service['jenkins'],
   }
 
-  $job_dir = '/var/lib/jenkins/jobs/loja-virtual-devops'
+  $job_structure = [
+    '/var/lib/jenkins/jobs',
+    '/var/lib/jenkins/jobs/loja-virtual-devops'
+  ]
   $git_repository = 'https://github.com/dtsato/loja-virtual-devops.git'
   $git_poll_interval = '* * * * *'
   $maven_goal = 'install'
@@ -51,19 +54,19 @@ class loja_virtual::ci {
   $repo_dir = '/var/lib/apt/repo'
   $repo_name = 'devopspkgs'
 
-  file { $job_dir:
+  file { $job_structure:
     ensure  => 'directory',
     owner   => 'jenkins',
     group   => 'jenkins',
     require => Class['jenkins::package'],
   }
 
-  file { "$job_dir/config.xml":
+  file { "${job_structure[1]}/config.xml":
     mode    => 0644,
     owner   => 'jenkins',
     group   => 'jenkins',
     content => template('loja_virtual/config.xml'),
-    require => File[$job_dir],
+    require => File[$job_structure[1]],
     notify  => Service['jenkins'],
   }
 

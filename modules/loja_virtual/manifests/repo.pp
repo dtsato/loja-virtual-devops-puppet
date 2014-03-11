@@ -24,9 +24,15 @@ class loja_virtual::repo($basedir, $name) {
 
   class { 'apache': }
 
+  if $ipaddress_eth1 {
+    $servername = $ipaddress_eth1
+  } else {
+    $servername = $ipaddress_eth0
+  }
+
   apache::vhost { $name:
     port       => 80,
     docroot    => $basedir,
-    servername => $ipaddress_eth1,
+    servername => $servername,
   }
 }
