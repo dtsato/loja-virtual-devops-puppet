@@ -35,6 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :db do |db_config|
+    db_config.vm.hostname = "db"
     db_config.vm.network :private_network, :ip => "192.168.33.10"
     db_config.vm.provider :aws do |aws|
       aws.private_ip_address = "192.168.33.10"
@@ -47,6 +48,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :web do |web_config|
+    web_config.vm.hostname = "web"
     web_config.vm.network :private_network, :ip => "192.168.33.12"
     web_config.vm.provider :aws do |aws|
       aws.private_ip_address = "192.168.33.12"
@@ -59,10 +61,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :monitor do |monitor_config|
+    monitor_config.vm.hostname = "monitor"
     monitor_config.vm.network :private_network, :ip => "192.168.33.14"
   end
 
   config.vm.define :ci do |build_config|
+    build_config.vm.hostname = "ci"
     build_config.vm.network :private_network, :ip => "192.168.33.16"
     build_config.vm.provider :aws do |aws|
       aws.private_ip_address = "192.168.33.16"
